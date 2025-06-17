@@ -1,0 +1,370 @@
+
+
+# version: '3.8'
+
+services:
+  web:
+    build: .
+    command: python run.py
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - ./uploads:/app/uploads
+    env_file:
+      - .env  # Charge les variables depuis ce fichier
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - foodfask_net
+
+  db:
+    image: postgres:13
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"  # Port hôte:conteneur
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - foodfask_net
+
+volumes:
+  pgdata:
+
+networks:
+  foodfask_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+
+# version: '3.8'
+
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "5000:5000" 
+#     volumes:
+#       - .:/app
+#       - ./uploads:/app/uploads
+#     depends_on:
+#       - db
+#     environment:
+#       - DATABASE_URL=postgresql+psycopg2://christ:123456@db:5432/foods
+#       - DB_HOST=db
+#       - DB_PORT=5432
+#     restart: always
+#     networks:
+#       - foodfask_net
+
+#   db:
+#     image: postgres:13
+#     environment:
+#       POSTGRES_USER: christ
+#       POSTGRES_PASSWORD: '123456'
+#       POSTGRES_DB: foods
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#       - ./init-db:/docker-entrypoint-initdb.d
+#     networks:
+#       - foodfask_net
+
+# volumes:
+#   pgdata:
+
+# networks:
+#   foodfask_net:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 172.30.0.0/16
+
+
+# version: '3.8'
+
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "8000:8000"
+#     volumes:
+#       - .:/app
+#       - ./uploads:/app/uploads
+#     depends_on:
+#       - db
+#     environment:
+#       - DATABASE_URL=postgresql+psycopg2://christ:123456@db:5432/foods
+#       - DB_HOST=db  # Ajout explicite pour la configuration Python
+#       - DB_PORT=5434
+#     restart: always
+#     networks:
+#       - foodfask_net
+
+#   db:
+#     image: postgres:13
+#     environment:
+#       POSTGRES_USER: christ
+#       POSTGRES_PASSWORD: '123456'
+#       POSTGRES_DB: foods
+#     ports:
+#       - "5432:5432"  # Changé à 5432 pour cohérence avec le développement local
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#       - ./init-db:/docker-entrypoint-initdb.d
+#     networks:
+#       - foodfask_net
+
+# volumes:
+#   pgdata:
+
+# networks:
+#   foodfask_net:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 172.30.0.0/16
+ 
+ 
+ 
+ 
+ 
+ 
+    # Suppression de la configuration IPAM inutile pour ce cas
+# version: '3.8'
+
+
+
+
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "8000:8000"
+#     volumes:
+#       - .:/app
+#       - ./uploads:/app/uploads
+#     depends_on:
+#       - db
+#     environment:
+#       - DATABASE_URL=postgresql+psycopg2://christ:123456@db:5432/foods
+#     restart: always
+#     networks:
+#       - foodfask_net
+
+#   db:
+#     image: postgres:13
+#     environment:
+#       POSTGRES_USER: christ
+#       POSTGRES_PASSWORD: '123456'
+#       POSTGRES_DB: foods
+#     ports:
+#       - "5433:5432"
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#       - ./init-db:/docker-entrypoint-initdb.d
+#     networks:
+#       - foodfask_net
+
+# volumes:
+#   pgdata:
+
+# networks:
+#   foodfask_net:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 172.30.0.0/16
+
+    # Suppression de la configuration IPAM personnalisée
+
+# version: '3.8'
+
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "8000:8000"
+#     volumes:
+#       - .:/app
+#       - ./uploads:/app/uploads
+#     depends_on:
+#       - db
+#     environment:
+#       - DATABASE_URL=postgresql+psycopg2://christ:123456@food:5432/foods  # Changé de db à food
+#     restart: always
+#     networks:
+#       - foodfask_net
+
+#   db:
+#     image: postgres:13
+#     container_name: food  # Soit gardez ceci et utilisez 'food' dans DATABASE_URL
+#     # OU supprimez container_name et utilisez 'db' dans DATABASE_URL
+#     environment:
+#       POSTGRES_USER: christ
+#       POSTGRES_PASSWORD: '123456'
+#       POSTGRES_DB: foods
+#     ports:
+#       - "5432:5432"  # Changé de 5434 à 5432 pour cohérence
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#       - ./init-db:/docker-entrypoint-initdb.d
+#     networks:
+#       - foodfask_net
+
+# volumes:
+#   pgdata:
+
+# networks:
+#   foodfask_net:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 172.30.0.0/16
+
+
+
+
+
+
+
+
+# version: '3.8'
+
+# services:
+#   web:
+#     build: .
+#     # ports:
+#     #   - "5000:5000"
+#     ports:
+#       - "8000:8000"
+#     volumes:
+#       - .:/app
+#       - ./uploads:/app/uploads
+#     depends_on:
+#       - db
+#     environment:
+#       - DATABASE_URL=postgresql+psycopg2://christ:123456@db:5432/foods
+#     restart: always
+#     networks:
+#       - foodfask_net
+
+#   db:
+#     image: postgres:13
+#     container_name: food
+#     environment:
+#       POSTGRES_USER: christ
+#       POSTGRES_PASSWORD: '123456'
+#       POSTGRES_DB: foods
+#     ports:
+#       - "5434:5432"
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#       - ./init-db:/docker-entrypoint-initdb.d
+#     networks:
+#       - foodfask_net
+
+# volumes:
+#   pgdata:
+
+# networks:
+#   foodfask_net:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 172.30.0.0/16
+
+
+
+# # version: '3.8'
+
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "5000:5000"
+#     volumes:
+#       - .:/app
+#       - ./uploads:/app/uploads
+#     depends_on:
+#       - db
+#     environment:
+#       - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/foods
+#     restart: always
+#     networks:
+#       foodfask_net:
+
+#   db:
+#     image: postgres:13
+#     container_name: food
+#     environment:
+#       POSTGRES_USER: christ
+#       POSTGRES_PASSWORD: '123456'
+#       POSTGRES_DB: foods
+#     ports:
+#       - "5434:5432"
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#       - ./init-db:/docker-entrypoint-initdb.d
+#     networks:
+#       foodfask_net:
+
+# volumes:
+#   pgdata:
+
+# networks:
+#   foodfask_net:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 172.30.0.0/16
+
+
+
+# # # version: '3.8'
+
+# # services:
+# #   web:
+# #     build: .
+# #     # network: host
+# #     # dns:
+# #     #   - 8.8.8.8
+# #     #   - 8.8.4.4
+# #     # container_name: flask-app
+# #     ports:
+# #       - "5000:5000"
+# #     volumes:
+# #       - .:/app
+# #       - ./uploads:/app/uploads
+# #     depends_on:
+# #       - db
+# #     environment:
+# #       - DATABASE_URL=postgresql://postgres:postgres@db:5432/foods
+# #     restart: always
+
+# #   db:
+# #     image: postgres:13
+# #     container_name: food
+# #     environment:
+# #       POSTGRES_USER: christ
+# #       POSTGRES_PASSWORD: 123456
+# #       POSTGRES_DB: foods
+# #     ports:
+# #       - "5432:5432"
+# #     volumes:
+# #       - pgdata:/var/lib/postgresql/data
+# #       - ./init-db:/docker-entrypoint-initdb.d
+
+# # volumes:
+# #   pgdata:
